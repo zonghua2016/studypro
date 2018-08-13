@@ -50,7 +50,6 @@
                 _self.kwArr[_self.num].className = 'kwRed cur';
                 win.scrollTo(0, _self.kwArr[_self.num].offsetTop - 50);
             });
-
         },
         setkwcolor: function (kw) {
             var _self = this;
