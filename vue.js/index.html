@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- <input type="text" v-model="msg"> -->
+        <p ref="p">total:::{{total}}</p>
+        <my-com v-model="total" ref="com"></my-com>
+        <input type="button" @click="handleReduce" value="-1">
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('my-com', {
+        props: ['value'], 
+        template: '<input type="text" @input="updataval" :value="value">',
+        data() {
+            return {
+                count: 0
+            }
+        },
+        methods: {
+            updataval(e) {
+                this.$emit('input', e.target.value)
+            }
+        }
+    })
+    var app = new Vue({
+        el: '.app',
+        data: {
+            total: 0
+        },
+        mounted() {
+            console.log(this.$refs.p);
+            console.log(this.$refs.com);
+            
+        },
+        methods: {
+            handleReduce() {
+                this.total--;
+            }
+        }
+    })
+</script>
+
+</html>
