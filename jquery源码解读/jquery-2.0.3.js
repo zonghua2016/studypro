@@ -385,7 +385,7 @@
         // Unique for each copy of jQuery on the page
         // 生成唯一jq字符串（内部）
         expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""),
-
+        // 防止冲突
         noConflict: function (deep) {
             if (window.$ === jQuery) {
                 window.$ = _$;
@@ -400,11 +400,11 @@
 
         // Is the DOM ready to be used? Set to true once it occurs.
         isReady: false,
-
+        // 等待多少文件的计数器（内部）
         // A counter to track how many items to wait for before
         // the ready event fires. See #6781
         readyWait: 1,
-
+        // 推迟DOM触发
         // Hold (or release) the ready event
         holdReady: function (hold) {
             if (hold) {
@@ -413,7 +413,7 @@
                 jQuery.ready(true);
             }
         },
-
+        // 准备DOM触发
         // Handle when the DOM is ready
         ready: function (wait) {
 
@@ -449,6 +449,8 @@
         isArray: Array.isArray,
 
         isWindow: function (obj) {
+            // obj != null  排除null和undefined
+            // 全局对象下的窗口对象
             return obj != null && obj === obj.window;
         },
 
