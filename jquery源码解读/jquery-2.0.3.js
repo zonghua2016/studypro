@@ -125,7 +125,6 @@
                 if (selector.charAt(0) === "<" && selector.charAt(selector.length - 1) === ">" && selector.length >= 3) {
                     // Assume that strings that start and end with <> are HTML and skip the regex check  假设以<>开头和结尾的字符串是HTML并跳过正则表达式检查   <li>asdasdf</li>
                     match = [null, selector, null];
-
                 } else {
                     match = rquickExpr.exec(selector);
                 }
@@ -179,12 +178,12 @@
                     }
 
                     // HANDLE: $(expr, $(...))
-                } else if (!context || context.jquery) {
+                } else if (!context || context.jquery) { // $('ul', $(document)).find('li')
                     return (context || rootjQuery).find(selector);
 
                     // HANDLE: $(expr, context)
                     // (which is just equivalent to: $(context).find(expr)
-                } else {
+                } else { // $('ul', document).find('li')
                     return this.constructor(context).find(selector);
                 }
 
@@ -199,7 +198,7 @@
             } else if (jQuery.isFunction(selector)) {
                 return rootjQuery.ready(selector);
             }
-
+            // 防止jQuery对象嵌套  $($('#div')
             if (selector.selector !== undefined) {
                 this.selector = selector.selector;
                 this.context = selector.context;
@@ -345,13 +344,13 @@
 
         for (; i < length; i++) {
             // Only deal with non-null/undefined values
-            if ((options = arguments[i]) != null) { // 防止循环引用
+            if ((options = arguments[i]) != null) { // 防止null值
                 // Extend the base object
                 for (name in options) {
                     src = target[name];
                     copy = options[name];
 
-                    // Prevent never-ending loop
+                    // Prevent never-ending loop // 防止循环引用
                     if (target === copy) {
                         continue;
                     }
@@ -459,6 +458,7 @@
         },
 
         type: function (obj) {
+            // null undefined
             if (obj == null) {
                 return String(obj);
             }
@@ -494,7 +494,7 @@
             // |obj| is a plain object, created by {} or constructed with new Object
             return true;
         },
-
+        // 是否是空对象
         isEmptyObject: function (obj) {
             var name;
             for (name in obj) {
@@ -506,7 +506,7 @@
         error: function (msg) {
             throw new Error(msg);
         },
-
+        // 解析节点
         // data: string of html
         // context (optional): If specified, the fragment will be created in this context, defaults to document
         // keepScripts (optional): If true, will include scripts passed in the html string
@@ -536,7 +536,7 @@
 
             return jQuery.merge([], parsed.childNodes);
         },
-
+        // 解析json
         parseJSON: JSON.parse,
 
         // Cross-browser xml parsing
@@ -559,9 +559,9 @@
             }
             return xml;
         },
-
+        // 创建空对象
         noop: function () {},
-
+        // 全局解析js
         // Evaluates a script in a global context
         globalEval: function (code) {
             var script,
@@ -584,22 +584,23 @@
                 }
             }
         },
-
+        // 转驼峰（内部）
         // Convert dashed to camelCase; used by the css and data modules
         // Microsoft forgot to hump their vendor prefix (#9572)
         camelCase: function (string) {
             return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
         },
-
+        // 是否为指定节点名（内部）
         nodeName: function (elem, name) {
+            // elem.nodeName 可能为大写，toLowerCase保证全兼容
             return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
         },
-
+        // 遍历集合 args区分是否是内部使用
         // args is for internal usage only
         each: function (obj, callback, args) {
             var value,
                 i = 0,
-                length = obj.length,
+                length = obj.length, //json没有length属性  用以区分数组、类数组和json
                 isArray = isArraylike(obj);
 
             if (args) {
@@ -644,12 +645,12 @@
 
             return obj;
         },
-
+        // 去前后空格
         trim: function (text) {
             return text == null ? "" : core_trim.call(text);
         },
-
-        // results is for internal usage only
+        // 类数组转真数组
+        // results is for internal usage only  对内使用
         makeArray: function (arr, results) {
             var ret = results || [];
 
@@ -665,11 +666,11 @@
 
             return ret;
         },
-
+        // 数组版 indexOf
         inArray: function (elem, arr, i) {
             return arr == null ? -1 : core_indexOf.call(arr, elem, i);
         },
-
+        // 合并
         merge: function (first, second) {
             var l = second.length,
                 i = first.length,
@@ -689,7 +690,7 @@
 
             return first;
         },
-
+        // 过滤新数组
         grep: function (elems, callback, inv) {
             var retVal,
                 ret = [],
@@ -708,7 +709,7 @@
 
             return ret;
         },
-
+        // 映射新数组
         // arg is for internal usage only
         map: function (elems, callback, arg) {
             var value,
@@ -716,7 +717,7 @@
                 length = elems.length,
                 isArray = isArraylike(elems),
                 ret = [];
-
+            // 数组、类数组
             // Go through the array, translating each of the items to their
             if (isArray) {
                 for (; i < length; i++) {
@@ -726,7 +727,7 @@
                         ret[ret.length] = value;
                     }
                 }
-
+                // json
                 // Go through every key on the object,
             } else {
                 for (i in elems) {
@@ -738,13 +739,13 @@
                 }
             }
 
-            // Flatten any nested arrays
+            // Flatten any nested arrays   ！！！避免复合（二维）数组
             return core_concat.apply([], ret);
         },
-
+        // 唯一标识符（内部）
         // A global GUID counter for objects
         guid: 1,
-
+        // 改this指向
         // Bind a function to a context, optionally partially applying any
         // arguments.
         proxy: function (fn, context) {
@@ -773,15 +774,16 @@
 
             return proxy;
         },
-
+        // 多功能值操作（内部）
         // Multifunctional method to get and set values of a collection
         // The value/s can optionally be executed if it's a function
+        // chainable 为真是赋值，假为获取值
         access: function (elems, fn, key, value, chainable, emptyGet, raw) {
             var i = 0,
                 length = elems.length,
                 bulk = key == null;
 
-            // Sets many values
+            // Sets many values {'width':'100', 'color':'red'}
             if (jQuery.type(key) === "object") {
                 chainable = true;
                 for (i in key) {
@@ -826,9 +828,9 @@
                 fn.call(elems) :
                 length ? fn(elems[0], key) : emptyGet;
         },
-
+        // 当前时间
         now: Date.now,
-
+        // css交换  内部   暂时添加一个需要的样式，同时保留原有的样式，运行后在复位
         // A method for quickly swapping in/out CSS properties to get correct calculations.
         // Note: this method belongs to the css module but it's needed here for the support module.
         // If support gets modularized, this method should be moved back to the css module.
@@ -2928,15 +2930,15 @@
      *
      * Possible options:
      *
-     *	once:			will ensure the callback list can only be fired once (like a Deferred)
+     *	once:			will ensure the callback list can only be fired once (like a Deferred)将确保回调列表只能被触发一次（如延期）
      *
      *	memory:			will keep track of previous values and will call any callback added
      *					after the list has been fired right away with the latest "memorized"
      *					values (like a Deferred)
      *
-     *	unique:			will ensure a callback can only be added once (no duplicate in the list)
+     *	unique:			唯一的 will ensure a callback can only be added once (no duplicate in the list)将确保回调只能添加一次（列表中没有重复）
      *
-     *	stopOnFalse:	interrupt callings when a callback returns false
+     *	stopOnFalse:	interrupt callings when a callback returns false当回调返回false时，中断调用
      *
      */
     jQuery.Callbacks = function (options) {
@@ -2945,7 +2947,7 @@
         // (we check in cache first)
         options = typeof options === "string" ?
             (optionsCache[options] || createOptions(options)) :
-            jQuery.extend({}, options);
+            jQuery.extend({}, options);  // 传入空的话typeof值是undefined，就取默认值
 
         var // Last fire value (for non-forgettable lists)
             memory,
@@ -2992,7 +2994,7 @@
             },
             // Actual Callbacks object
             self = {
-                // Add a callback or a collection of callbacks to the list
+                // Add a callback or a collection of callbacks to the list  push
                 add: function () {
                     if (list) {
                         // First, we save the current length
@@ -3023,7 +3025,7 @@
                     }
                     return this;
                 },
-                // Remove a callback from the list
+                // Remove a callback from the list  splice
                 remove: function () {
                     if (list) {
                         jQuery.each(arguments, function (_, arg) {
