@@ -41,7 +41,7 @@ feature 是远程仓库中目标branch的名字
 即：我要push到origin这个仓库的feature分支
 在git中，默认情况下，git push 只能上传那些之前从远端clone下来的或者pull下来的分支
 而如果需要push本地自己创建的分支，则需要手动指定目标仓库和目标分支（并且目标分支的名称必须和本地分支完全相同）
-上传完毕后，远程仓库中HEAD是永远指向他的默认分支的（master），并不会随着默认分支的移动而移动
+远程仓库中HEAD是永远指向他的默认分支的（master），并不会随着默认分支的移动而移动
 
 ***
 pull内部操作其实是把远程仓库取到本地后（使用fetch），再用一次merge来把远端仓库的新commits合并到本地
@@ -128,7 +128,7 @@ git rebase -i HEAD^^
 
 ## 比错还错，想直接丢弃刚写的提交？
 
-reset --hard 丢弃**最新的提交**
+reset --hard 丢弃 **最新的提交**
 即撤销这条 commit
 ~~一旦回退到上个版本，除非记住该版本的commit标记，否则不能再找到之后的版本了~~
 ~~**慎用**~~
@@ -162,7 +162,7 @@ git push origin branch1 -f
 ## git checkout branch 的本质
 git checkout branch名 的本质，其实是把 HEAD 指向指定的 branch，然后签出这个 branch 所对应的 commit 的工作目录。所以同样的，checkout 的目标也可以不是 branch，而直接指定某个 commit：
 
-git checkout HEAD^^
+git checkout HEAD^^s
 git checkout master~5
 git checkout 78a4bc
 git checkout 78a4bc^
