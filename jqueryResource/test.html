@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="http://img.mukewang.com/down/540812440001e40e00000000.js" type="text/javascript"></script>
+	<script src="http://img.mukewang.com/down/541f6ff70001a0a500000000.js" type="text/javascript"></script>
+	<script src="../cherrySource/cherry.js"></script>
+	<title></title>
+</head>
+
+<body>
+	<!-- <div id="box">1234</div>
+	<ul>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+		<li>5</li>
+	</ul>
+	<div>
+		<p>你好，<span id='nickName'></span></p>
+		<div id="introduce"></div>
+	</div>　 -->
+
+	<script>
+		var longestCommonPrefix = function (strs) {
+			var len = strs[0].length,
+				reg = '';
+			reg = strs[0].substr(0, 1);
+			for (let i = 1; i < strs.length; i++) {
+				const str = strs[i];
+				if (str.match(reg)) {
+
+				}
+			}
+		};
+		console.log(longestCommonPrefix(["flower", "flow", "flight"]));
+
+
+		function amap(arr, callback) {
+			let newarr = []
+			for (let i = 0; i < arr.length; i++) {
+				const item = arr[i];
+				newarr.push(callback(item));
+			}
+			return newarr;
+		}
+
+		var arr = [1, 2, 3];
+
+		var aaa = amap(arr, function (item) {
+			return item * 2;
+		})
+		console.log(aaa);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// function mymerge(fir, sec) {
+		// 	var s = sec.length,
+		// 		f = fir.length,
+		// 		j = 0;
+		// 	// 如果sec是数组
+		// 	if (typeof s === 'number') {
+		// 		for (; j < s; j++) {
+		// 			fir[f++] = sec[j]
+		// 		}
+		// 	} else {
+		// 		// 如果sec是对象
+		// 		while (sec[j] != 'undefined') {
+		// 			fir[f++] = sec[j++]
+		// 		}
+		// 	}
+		// 	fir.length = i;
+		// 	return fir;
+		// }
+
+		// var names = {
+		// 	'$clone': function () {
+		// 		return this.valueOf();
+		// 	},
+		// 	'$equal': function (val) {
+		// 		return this.valueOf() === val;
+		// 	},
+		// 	'$isPlainObject': function () {
+		// 		return false;
+		// 	},
+		// 	'$isFunction': function () {
+		// 		return false;
+		// 	}
+		// }
+
+		// var userinfo = {}
+		// Object.defineProperty(userinfo, 'nickName', {
+		// 	get: function () {
+		// 		return document.getElementById('nickName').innerHTML;
+		// 	},
+		// 	set: function (nick) {
+		// 		document.getElementById('nickName').innerHTML = nick;
+		// 	}
+		// });
+		// Object.defineProperty(userinfo, 'introduce', {
+		// 	get: function () {
+		// 		return document.getElementById('introduce').innerHTML;
+		// 	},
+		// 	set: function (int) {
+		// 		document.getElementById('introduce').innerHTML = int;
+		// 	}
+		// })
+
+		// userinfo.nickName = 'xxx';
+		// userinfo.introduce = "i'm tzh  form china!"
+
+
+
+		// function myQuery() {
+		// 	this.name = '123';
+		// 	this.age = 12;
+		// 	return new myQuery.prototype.init(this.name);
+		// }
+		// myQuery.prototype.init = function (name) {
+		// 	alert(name + '  say   hello');
+		// }
+		// myQuery.prototype.cook = function (name) {
+		// 	alert(name + '  can   cook');
+		// }
+		// myQuery.prototype.init.prototype = myQuery.prototype;
+		// // myQuery().cook(11);
+	</script>
+	<script src="./testjson.js"></script>
+</body>
+
+</html>
