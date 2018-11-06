@@ -1,0 +1,20 @@
+
+@homecolor: rgb(78, 127, 233);
+
+html{
+  background-color: @homecolor;
+}
+
+.box{
+  composes: bigbox from './common.less';
+  height: 200px;
+  width: 200px;
+  border-radius: 4px;
+  background: #333;
+  transition: transform 1s;
+
+}
+
+.bigbox{
+  width: 300px;height: 400px;
+}
